@@ -1,0 +1,31 @@
+No, name, email , phone, password, dob, action, adress (button edit và remove)
+1   Loc
+
+hover 
+
+10 dòng dữ liệu giả
+
+
+email : text đỏ
+button : hover hiệu ưunsg
+
+table kẻ đậm
+
+table sẽ phải kéo dài 80% màn hình và phải căn ra giữa màn
+
+
+bên dưới table viết text 
+người lớn tuổi nhất 
+người sống ở hà nội
+người sống ở hcm
+------------------------------------------
+
+
+fakeData = [
+		{id:1 , name: loc},
+]
+
+-> dùng fake data để render row của table
+
+
+dùng es6  dể tìm người lớn tuiooir nhất in ra ten, người sông ở hàn nội
