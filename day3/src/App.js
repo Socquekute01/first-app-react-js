@@ -2,8 +2,10 @@ import './App.css';
 import './assets/css/table-custom.css';
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import { BsFillPencilFill, BsFillTrashFill } from 'react-icons/bs';
 import { useState } from 'react';
+import Form from 'react-bootstrap/Form';
 
 const DataUserArray = [
 	{
@@ -49,14 +51,244 @@ const DataUserArray = [
 // Update: splice(index, 0, {})
 // sử dụng destructoring để xử lí
 
+const defaultUserInformation = {
+	id: '',
+	name: '',
+	email: '',
+	password: '',
+	phone: '',
+	dob: '',
+	address: '',
+};
+
+function ModalAddCustom({ show, handleClose, setDataUser, userData }) {
+	const [userInformation, setUserInformation] = useState(
+		defaultUserInformation,
+	);
+	return (
+		<Modal show={show} onHide={handleClose}>
+			<Modal.Header closeButton>
+				<Modal.Title>Create new user</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form.Label>Id</Form.Label>
+				<Form.Control
+					value={userInformation.id}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							id: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Name</Form.Label>
+				<Form.Control
+					value={userInformation.name}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							name: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Email</Form.Label>
+				<Form.Control
+					value={userInformation.email}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							email: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Password</Form.Label>
+				<Form.Control
+					value={userInformation.password}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							password: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Phone</Form.Label>
+				<Form.Control
+					value={userInformation.phone}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							phone: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>DOB</Form.Label>
+				<Form.Control
+					value={userInformation.dob}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							dob: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Address</Form.Label>
+				<Form.Control
+					value={userInformation.address}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							address: e.target.value,
+						});
+					}}
+				/>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button variant="secondary" onClick={handleClose}>
+					Close
+				</Button>
+				<Button
+					variant="primary"
+					onClick={() => {
+						setDataUser([...userData, userInformation]);
+						setUserInformation(defaultUserInformation);
+						handleClose();
+					}}
+				>
+					Save Changes
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	);
+}
+
+function ModalEditCustom({
+	show,
+	handleClose,
+	setDataUser,
+	userData,
+	userInformation,
+	setUserInformation,
+	index
+}) {
+	return (
+		<Modal show={show} onHide={handleClose}>
+			<Modal.Header closeButton>
+				<Modal.Title>Update user</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form.Label>Id</Form.Label>
+				<Form.Control
+					value={userInformation.id}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							id: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Name</Form.Label>
+				<Form.Control
+					value={userInformation.name}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							name: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Email</Form.Label>
+				<Form.Control
+					value={userInformation.email}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							email: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Password</Form.Label>
+				<Form.Control
+					value={userInformation.password}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							password: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Phone</Form.Label>
+				<Form.Control
+					value={userInformation.phone}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							phone: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>DOB</Form.Label>
+				<Form.Control
+					value={userInformation.dob}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							dob: e.target.value,
+						});
+					}}
+				/>
+				<Form.Label>Address</Form.Label>
+				<Form.Control
+					value={userInformation.address}
+					onChange={(e) => {
+						setUserInformation({
+							...userInformation,
+							address: e.target.value,
+						});
+					}}
+				/>
+			</Modal.Body>
+			<Modal.Footer>
+				<Button variant="secondary" onClick={handleClose}>
+					Close
+				</Button>
+				<Button
+					variant="primary"
+					onClick={() => {
+						let cloneUserData = [...userData, userInformation];
+						cloneUserData.splice(index, 1);
+						setDataUser(cloneUserData);
+						handleClose()
+						setUserInformation(defaultUserInformation)
+					}}
+				>
+					Save Changes
+				</Button>
+			</Modal.Footer>
+		</Modal>
+	);
+}
+
 function App() {
 	const [userData, setDataUser] = useState(DataUserArray);
+	const [show, setShow] = useState(false);
+	const [userSelected, setUserSelected] = useState(null)
+	const [userInformation, setUserInformation] = useState(
+		defaultUserInformation,
+	);
+
+	const handleClose = () => setShow(false);
 	function calculateAge(dob) {
 		const parts = dob.split('-');
 		const birthday = new Date(parts[0], parts[1] - 1, parts[2]); // parts[1] - 1 vì tháng trong JavaScript bắt đầu từ 0
 		const ageDate = new Date(Date.now() - birthday.getTime());
 		return Math.abs(ageDate.getUTCFullYear() - 1970);
 	}
+
+	const handleUpdateUser = (index, data) => {
+		let cloneUserData = [...userData, data];
+		cloneUserData.splice(index, 1);
+		setDataUser(cloneUserData);
+	};
 
 	const handleDelelteUser = (index) => {
 		// splice để delete hoặc là thay thế giá trị element = một element. splice nhận vào 3 đối số
@@ -107,6 +339,11 @@ function App() {
 						<Button
 							variant="warning"
 							style={{ marginRight: '4px' }}
+							onClick={() => {
+								setShow(true);
+								setUserInformation(item);
+								setUserSelected(index)
+							}}
 						>
 							<BsFillPencilFill />
 						</Button>
@@ -135,6 +372,22 @@ function App() {
 					flexDirection: 'column',
 				}}
 			>
+				{/* <ModalAddCustom
+					show={show}
+					handleClose={handleClose}
+					setDataUser={setDataUser}
+					userData={userData}
+				/> */}
+				<ModalEditCustom
+					show={show}
+					handleClose={handleClose}
+					setDataUser={setDataUser}
+					userData={userData}
+					userInformation={userInformation}
+					setUserInformation={setUserInformation}
+					index={userSelected}
+				/>
+				<Button onClick={() => setShow(true)}>Add New User</Button>
 				{userData.length ? (
 					<Table
 						striped
