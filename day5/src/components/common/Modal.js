@@ -1,8 +1,9 @@
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { UserInformationContext } from "../provider/UserInformationProvider";
 
 const defaultUserValue = {
   email: "",
@@ -10,6 +11,9 @@ const defaultUserValue = {
 };
 
 function ModalComponent({ show = false, handleClose = () => {} }) {
+  const userContext = useContext(UserInformationContext);
+  const { setUserInformation } = userContext;
+
   const [validated, setValidated] = useState(false);
   const [user, setUser] = useState(defaultUserValue);
 
@@ -32,7 +36,8 @@ function ModalComponent({ show = false, handleClose = () => {} }) {
     );
     if (response.status === 200 && response.data.length) {
       const result = response.data[0];
-      localStorage.setItem("user", JSON.stringify(result));
+      setUserInformation(result);
+      // localStorage.setItem("user", JSON.stringify(result));
       alert("Đăng nhập thành công.");
       setUser(defaultUserValue);
       handleClose();

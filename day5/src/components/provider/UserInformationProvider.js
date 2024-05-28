@@ -6,14 +6,10 @@ const UserInformationProvider = ({ children }) => {
   const [userInformation, setUserInformation] = useState(
     () => JSON.parse(localStorage.getItem("user")) || {}
   );
-  useEffect(() => {
-    const userInformationDecode = localStorage.getItem("user");
 
-    if (userInformationDecode) {
-      const userInformationEncode = JSON.parse(userInformationDecode);
-      setUserInformation(userInformationEncode);
-    }
-  }, [localStorage.getItem("user")]);
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(userInformation));
+  }, [userInformation]);
 
   return (
     <UserInformationContext.Provider
