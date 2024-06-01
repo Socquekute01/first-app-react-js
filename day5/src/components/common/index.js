@@ -1,3 +1,5 @@
-import ModalComponent from "./Modal";
+import LoginModalComponent from "./LoginModal";
+import RegisterModalComponent from "./RegisterModal";
+import AddUserModal from "./AddUserModal";
 
-export { ModalComponent };
+export { LoginModalComponent, RegisterModalComponent, AddUserModal };

@@ -1,17 +1,23 @@
 import Button from "react-bootstrap/esm/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { UserInformationContext } from "../provider";
+import { useNavigate } from "react-router-dom";
 
 const defaultUserValue = {
   email: "",
   password: "",
 };
 
-function ModalComponent({ show = false, handleClose = () => {} }) {
+function LoginModalComponent({ show = false, handleClose = () => {} }) {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [user, setUser] = useState(defaultUserValue);
+  const userContext = useContext(UserInformationContext);
+
+  const { setUserInformation } = userContext;
 
   const handleChangeInput = (e) => {
     const { value, name } = e.target;
@@ -32,9 +38,12 @@ function ModalComponent({ show = false, handleClose = () => {} }) {
     );
     if (response.status === 200 && response.data.length) {
       const result = response.data[0];
-      localStorage.setItem("user", JSON.stringify(result));
       alert("Đăng nhập thành công.");
       setUser(defaultUserValue);
+      setUserInformation(result);
+      if (result?.role === "admin") {
+        navigate("/admin");
+      }
       handleClose();
     } else {
       alert("Email hoặc mật khẩu không đúng. Vui lòng kiểm tra lại!");
@@ -48,7 +57,7 @@ function ModalComponent({ show = false, handleClose = () => {} }) {
       <Modal.Body>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="formGroupEmail">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
               name="email"
               type="email"
@@ -76,19 +85,11 @@ function ModalComponent({ show = false, handleClose = () => {} }) {
               Please provide a password.
             </Form.Control.Feedback>
           </Form.Group>
-          <Button type="submit">Login Account</Button>
+          <Button type="submit">Login</Button>
         </Form>
       </Modal.Body>
-      {/* <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="primary" type="submit">
-          Save Changes
-        </Button>
-      </Modal.Footer> */}
     </Modal>
   );
 }
 
-export default ModalComponent;
+export default LoginModalComponent;

@@ -4,24 +4,37 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useContext, useState } from "react";
-import { ModalComponent } from "../common";
-import { UserInformationContext } from "../provider";
+import { UserInformationContext } from "../../../provider";
 import Image from "react-bootstrap/Image";
+import { LoginModalComponent, RegisterModalComponent } from "../../../common";
 
-function HeaderComponent() {
+function HeaderUserComponent() {
   const [show, setShow] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
 
   const handleClose = () => setShow(false);
+  const handleCloseRegister = () => setShowRegister(false);
   const handleShow = () => setShow(true);
+  const handleShowRegister = () => setShowRegister(true);
   const userContext = useContext(UserInformationContext);
   const { userInformation } = userContext;
 
   return (
     <>
-      <ModalComponent show={show} handleClose={handleClose} />
+      <LoginModalComponent show={show} handleClose={handleClose} />
+      <RegisterModalComponent
+        show={showRegister}
+        handleClose={handleCloseRegister}
+      />
       <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
         <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img
+              src="https://img.freepik.com/premium-vector/bird-logo-design_646665-636.jpg"
+              alt="logo"
+              style={{ width: "60px" }}
+            />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -37,11 +50,13 @@ function HeaderComponent() {
             </Nav>
             {userInformation?.id ? (
               <>
-                <span style={{fontWeight: "600"}}>{userInformation?.name}</span>
+                <span style={{ fontWeight: "600" }}>
+                  {userInformation?.name}
+                </span>
                 <Image
                   src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
                   roundedCircle
-                  style={{width: "48px", height: "48px", marginLeft: "8px"}}
+                  style={{ width: "48px", height: "48px", marginLeft: "8px" }}
                 />
               </>
             ) : (
@@ -49,6 +64,7 @@ function HeaderComponent() {
                 <Button
                   variant="outline-primary"
                   style={{ marginRight: "8px" }}
+                  onClick={handleShowRegister}
                 >
                   Register
                 </Button>
@@ -62,4 +78,4 @@ function HeaderComponent() {
   );
 }
 
-export default HeaderComponent;
+export default HeaderUserComponent;

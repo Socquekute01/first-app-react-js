@@ -1,20 +1,40 @@
 {
   "user": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Loc",
       "phone": "0123456789",
       "numberStudent": "HE153667",
       "email": "test1@gmail.com",
-      "password": "123456"
+      "password": "123456",
+      "role": "admin"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Bach",
       "phone": "0123456789",
       "numberStudent": "HE153666",
       "email": "test6@gmail.com",
-      "password": "123456"
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "3",
+      "name": "Duy",
+      "phone": "0123456789",
+      "numberStudent": "HE153666",
+      "email": "test2@gmail.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "4",
+      "name": "Hang",
+      "email": "hang@gmail.com",
+      "password": "123456",
+      "phone": "0815647388",
+      "numberStudent": "He123343",
+      "role": "user"
     }
   ]
 }
